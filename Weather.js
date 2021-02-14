@@ -76,7 +76,7 @@ export default function Weather ({temp, condition}) {
                 <StatusBar barStyle="light-content" />
                 <Text style={styles.temp}>{temp}도</Text>
             </View>
-            <View style={{...styles.halfContainer, ...styles.textContainer}}>
+            <View style={styles.halfContainer}>
                 <Text style={styles.title}>{weatherOptions[condition].title}</Text>
                 <Text style={styles.subtitle}>{weatherOptions[condition].subtitle}</Text>
             </View>
@@ -103,16 +103,20 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 44,
         fontWeight: "300",
-        marginBottom: 10
+        marginBottom: 10,
+        textAlign: "left",
     },
     subtitle:{
         fontWeight: "600",
         color: "white",
-        fontSize: 24
+        fontSize: 24,
+        textAlign: "left",
     },
     textContainer:{
-        paddingHorizontal: 20,
-        alignItems: "flex-start"
+        paddingHorizontal: 40,
+        alignItems: "flex-start",
+        justifyContent: "center",
+        flex: 1
     }
 })
 
@@ -129,5 +133,5 @@ Weather.PropTypes ={
         "Haze",
         "Mist",
         "Dust"
-    ])
+    ]).isRequired,
 }
