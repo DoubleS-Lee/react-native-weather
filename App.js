@@ -3,6 +3,7 @@ import Loading from './Loading';
 import * as Location from 'expo-location';
 import { Alert } from 'react-native';
 import axios from 'axios';
+import Weather from './Weather';
 
 const API_KEY = "774ff742b0f8d403ffaebf8f5661f843";
 
@@ -13,8 +14,12 @@ export default function App() {
   })
   
   const getWeather = async(latitude, longitude) => {
-    const {data} = await axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`)
-    console.log(data);
+    const {data} = await axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`)
+    // console.log(data);
+    setState({
+      isLoading:false,
+      temp:data.main.temp,
+    })
   }
 
   const getLocation = async() => {
@@ -24,7 +29,6 @@ export default function App() {
       const {coords: {latitude, longitude}} = await Location.getCurrentPositionAsync(); 
       // console.log(coords);
       getWeather(latitude, longitude);
-      setState({isLoading:false,});
     } catch(error) {
       Alert.alert("위치를 찾을 수가 없습니다", "위치 정보 사용 요청을 승인해주세요")
     }
@@ -34,10 +38,10 @@ export default function App() {
     getLocation();
   },[])
   
-  const {isLoading} = state;
+  const {isLoading, temp} = state;
   return (
     <>
-    {isLoading ? <Loading /> : null}
+    {isLoading ? <Loading /> : <Weather temp={Math.round(temp)} />}
     </>
   );
 }
